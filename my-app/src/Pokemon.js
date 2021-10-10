@@ -33,12 +33,12 @@ const Pokemon = props => {
             fullImageUrl = ` https://assets.pokemon.com/assets/cms2/img/pokedex/full/${'0' + id}.png`
         } 
         
-        const { front_default } = sprites;
+
         return (
             <>
                 <Typography variant="h1">
                     {`${id}.`}{toFirstCharUppercase(name)}
-                    <img src={front_default} style={{ width: '120px', height: '120px' }} />
+                    <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${id}.png`} style={{ width: '120px', height: '120px' }} />
                 </Typography>
                 <img style={{ width: '500px', height: '500px' }} src={fullImageUrl} />
                 <Typography variant="h3">Pokemon info</Typography>

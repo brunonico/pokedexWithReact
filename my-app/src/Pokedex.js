@@ -29,16 +29,21 @@ const useStyles = makeStyles(theme => ({
     },
     searchContainer: {
         display: 'flex',
-        backgroundColor: alpha (theme.palette.common.white,0.15),
+        backgroundColor: alpha(theme.palette.common.white, 0.15),
         paddingLeft: '20px',
-        paddingRight:'20px',
-        marginTop:'5px',
-        marginBottom:'5px',
+        paddingRight: '20px',
+        marginTop: '5px',
+        marginBottom: '5px',
     },
-    searchIcon:{
-        alignSelf : 'flex-end',
-        marginBottom:'5px',
+    searchIcon: {
+        alignSelf: 'flex-end',
+        marginBottom: '5px',
+    },
+    searchInput: {
+        width: '200px',
+        margin: '5px',
     }
+
 
 }));
 
@@ -47,7 +52,12 @@ const Pokedex = props => {
     const { history } = props;
     const classes = useStyles();
     const [pokemonData, setPokemonData] = useState({});
+    const [filter, setFilter] = useState("");
 
+
+    const handleSearchChange = (e) => {
+        setFilter(e.target.value);
+    }
     useEffect(() => {
         axios
             .get(`https://pokeapi.co/api/v2/pokemon?limit=964`)
@@ -94,14 +104,21 @@ const Pokedex = props => {
                 <Toolbar>
                     <div className={classes.searchContainer}>
                         <SearchIcon className={classes.searchIcon} />
-                        <TextField className={classes.searchInput} />
+                        <TextField
+                            onChange={handleSearchChange}
+                            className={classes.searchInput}
+                            label="Shiny-dex"
+                            variant="standard"
+                        />
                     </div>
                 </Toolbar>
             </AppBar>
             {pokemonData ? (
                 <Grid container spacing={2} className={classes.pokedexContainer}>
-                    {Object.keys(pokemonData).map((pokemonId) =>
-                        getPokemonCard(pokemonId)
+                    {Object.keys(pokemonData).map(
+                        (pokemonId) =>
+                            pokemonData[pokemonId].name.includes(filter) &&
+                            getPokemonCard(pokemonId)
                     )}
                 </Grid>
             ) : (
